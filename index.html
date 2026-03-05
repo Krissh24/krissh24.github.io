@@ -25,6 +25,24 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: var(--fb); overflow-x: hidden; cursor: none; }
 
+    /* AURORA */
+    .aurora { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .ab {
+      position: absolute; border-radius: 50%; filter: blur(100px); opacity: .11;
+      animation: adrift linear infinite;
+    }
+    .ab:nth-child(1) { width: 700px; height: 700px; background: radial-gradient(circle, #00e5a0, transparent 70%); top: -200px; left: -150px; animation-duration: 22s; }
+    .ab:nth-child(2) { width: 600px; height: 600px; background: radial-gradient(circle, #00bcd4, transparent 70%); top: 30%; right: -200px; animation-duration: 28s; animation-delay: -8s; }
+    .ab:nth-child(3) { width: 500px; height: 500px; background: radial-gradient(circle, #34d399, transparent 70%); bottom: -150px; left: 30%; animation-duration: 20s; animation-delay: -14s; }
+    .ab:nth-child(4) { width: 400px; height: 400px; background: radial-gradient(circle, #00e5a0, transparent 70%); top: 60%; left: -100px; animation-duration: 25s; animation-delay: -5s; }
+    @keyframes adrift {
+      0%   { transform: translate(0,0) scale(1); }
+      25%  { transform: translate(80px,-60px) scale(1.08); }
+      50%  { transform: translate(40px,100px) scale(.95); }
+      75%  { transform: translate(-60px,40px) scale(1.05); }
+      100% { transform: translate(0,0) scale(1); }
+    }
+
     /* PROGRESS BAR */
     #prog {
       position: fixed; top: 0; left: 0; height: 2.5px; width: 0%;
@@ -36,13 +54,30 @@
     #cdot {
       position: fixed; width: 8px; height: 8px; border-radius: 50%;
       background: var(--em); pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%); transition: transform .1s;
+      transform: translate(-50%,-50%);
     }
     #cring {
       position: fixed; width: 36px; height: 36px; border-radius: 50%;
       border: 1.5px solid rgba(0,229,160,.4); pointer-events: none; z-index: 9997;
       transform: translate(-50%,-50%); transition: width .25s, height .25s, border-color .25s;
     }
+
+    /* FLOATING PILL */
+    #fpill {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 800;
+      display: flex; align-items: center; gap: .55rem;
+      background: rgba(6,13,13,.88); backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,229,160,.25); border-radius: 100px;
+      padding: .6rem 1.2rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,.4), 0 0 20px rgba(0,229,160,.07);
+      animation: pillin .8s 1.5s ease both;
+      transition: transform .3s, box-shadow .3s;
+    }
+    #fpill:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,.5), 0 0 28px rgba(0,229,160,.14); }
+    .pdot { width: 8px; height: 8px; border-radius: 50%; background: var(--em); flex-shrink: 0; animation: blink 1.8s ease infinite; }
+    .ptxt { font-family: var(--fh); font-size: .75rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .ptxt span { color: var(--em); }
+    @keyframes pillin { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
     /* NAV */
     nav {
@@ -83,28 +118,28 @@
       background: linear-gradient(135deg, #065f46, var(--em));
       color: #001a10; font-family: var(--fh); font-size: .8rem; font-weight: 800;
       text-decoration: none; letter-spacing: .04em;
-      transition: transform .2s, box-shadow .3s;
+      transition: box-shadow .3s;
       box-shadow: 0 0 20px rgba(0,229,160,.2);
     }
-    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,229,160,.35); }
+    .nav-cta:hover { box-shadow: 0 6px 28px rgba(0,229,160,.35); }
 
     /* HERO */
     #hero {
       position: relative; min-height: 100vh;
       display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
-    #hcanvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; }
+    #hcanvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; z-index: 1; }
     .h-radial {
-      position: absolute; inset: 0; pointer-events: none;
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
       background:
         radial-gradient(ellipse 60% 55% at 50% 50%, rgba(0,229,160,.07) 0%, transparent 70%),
         radial-gradient(ellipse 30% 40% at 80% 20%, rgba(0,188,212,.05) 0%, transparent 60%);
     }
     .h-noise {
-      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      position: absolute; inset: 0; pointer-events: none; z-index: 3;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
     }
-    .h-content { position: relative; z-index: 2; text-align: center; max-width: 900px; padding: 0 2rem; }
+    .h-content { position: relative; z-index: 4; text-align: center; max-width: 900px; padding: 0 2rem; }
     .h-badge {
       display: inline-flex; align-items: center; gap: .6rem;
       background: rgba(0,229,160,.07); border: 1px solid rgba(0,229,160,.18);
@@ -143,25 +178,43 @@
       animation: twc 1s step-end infinite;
     }
     @keyframes twc { 0%,100%{opacity:1} 50%{opacity:0} }
-    .h-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fup .9s .5s ease both; }
+    .btn-p, .btn-o, .con-res {
+      position: relative; overflow: hidden;
+    }
+    .btn-p::after, .btn-o::after, .con-res::after {
+      content: '';
+      position: absolute;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 70%);
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      transition: transform .4s ease, opacity .4s ease;
+      opacity: 0;
+      left: var(--mx, 50%); top: var(--my, 50%);
+    }
+    .btn-p:hover::after, .btn-o:hover::after, .con-res:hover::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
     .btn-p {
       padding: .75rem 1.8rem; border-radius: 9px; text-decoration: none;
       background: linear-gradient(135deg, #065f46 0%, var(--em) 120%);
       color: #001a10; font-family: var(--fh); font-size: .88rem; font-weight: 800;
       letter-spacing: .03em; transition: transform .2s, box-shadow .3s;
-      box-shadow: 0 0 32px rgba(0,229,160,.28);
+      box-shadow: 0 0 32px rgba(0,229,160,.28); display: inline-block;
     }
     .btn-p:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,229,160,.4); }
     .btn-o {
       padding: .75rem 1.8rem; border-radius: 9px; text-decoration: none;
       border: 1px solid var(--border); color: var(--text);
       font-family: var(--fh); font-size: .88rem; font-weight: 700;
-      letter-spacing: .03em; transition: all .3s;
+      letter-spacing: .03em; transition: all .3s; display: inline-block;
     }
     .btn-o:hover { border-color: var(--em); color: var(--em); transform: translateY(-3px); }
     .h-scroll {
       position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      z-index: 4; display: flex; flex-direction: column; align-items: center; gap: .5rem;
       font-size: .67rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
       animation: fin 1s .9s both;
     }
@@ -169,7 +222,7 @@
     @keyframes sp { 0%,100%{opacity:.25} 50%{opacity:1} }
 
     /* SECTIONS */
-    section { padding: 7rem 6%; }
+    section { padding: 7rem 6%; position: relative; z-index: 1; }
     .slabel { font-size: .7rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--em); margin-bottom: .6rem; }
     .stitle {
       font-family: var(--fh); font-size: clamp(1.9rem,5vw,3rem);
@@ -235,10 +288,7 @@
     .edeg { font-family: var(--fh); font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: .25rem; }
     .esch { font-size: .85rem; font-weight: 500; color: var(--teal); margin-bottom: .5rem; }
     .emeta { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1rem; }
-    .epill {
-      font-size: .7rem; font-weight: 600; padding: .2rem .65rem; border-radius: 100px;
-      background: rgba(0,229,160,.07); color: var(--jade); border: 1px solid rgba(0,229,160,.14);
-    }
+    .epill { font-size: .7rem; font-weight: 600; padding: .2rem .65rem; border-radius: 100px; background: rgba(0,229,160,.07); color: var(--jade); border: 1px solid rgba(0,229,160,.14); }
     .epill.gold { background: rgba(250,204,21,.07); color: #fbbf24; border-color: rgba(250,204,21,.2); }
     .clist { list-style: none; display: flex; flex-direction: column; gap: .55rem; }
     .clist li { display: flex; gap: .55rem; font-size: .83rem; color: rgba(212,240,232,.65); font-weight: 300; line-height: 1.5; }
@@ -273,14 +323,14 @@
     .pcard {
       background: var(--card); border: 1px solid var(--border); border-radius: 22px; padding: 2rem;
       display: flex; flex-direction: column; gap: .9rem; position: relative; overflow: hidden;
-      transition: transform .35s, border-color .35s, box-shadow .35s;
+      transition: border-color .35s, box-shadow .35s;
+      transform-style: preserve-3d; will-change: transform;
     }
     .pcard::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
       background: linear-gradient(90deg, transparent, var(--em), transparent);
       opacity: 0; transition: opacity .4s;
     }
-    .pcard:hover { transform: translateY(-8px); border-color: rgba(0,229,160,.22); box-shadow: 0 28px 60px rgba(0,0,0,.5); }
     .pcard:hover::before { opacity: 1; }
     .ptop { display: flex; justify-content: space-between; align-items: center; }
     .pnum { font-family: var(--fh); font-size: .67rem; font-weight: 700; letter-spacing: .18em; color: var(--muted); }
@@ -298,10 +348,7 @@
     .ppts li { font-size: .83rem; color: rgba(212,240,232,.55); font-weight: 300; line-height: 1.5; display: flex; gap: .5rem; }
     .ppts li::before { content: '—'; color: var(--em); flex-shrink: 0; font-size: .75rem; margin-top: .05rem; }
     .ptags { display: flex; flex-wrap: wrap; gap: .4rem; padding-top: .75rem; border-top: 1px solid var(--border); }
-    .ptag {
-      font-size: .7rem; font-weight: 700; padding: .2rem .62rem; border-radius: 100px;
-      background: rgba(0,229,160,.08); color: var(--jade); border: 1px solid rgba(0,229,160,.14);
-    }
+    .ptag { font-size: .7rem; font-weight: 700; padding: .2rem .62rem; border-radius: 100px; background: rgba(0,229,160,.08); color: var(--jade); border: 1px solid rgba(0,229,160,.14); }
 
     /* EXPERIENCE */
     #experience { background: var(--bg2); }
@@ -352,11 +399,11 @@
       padding: .82rem 2rem; border-radius: 10px;
       background: linear-gradient(135deg, #065f46, var(--em));
       color: #001a10; font-family: var(--fh); font-size: .9rem; font-weight: 800;
-      text-decoration: none; transition: transform .2s, box-shadow .3s;
+      text-decoration: none; transition: box-shadow .3s;
       box-shadow: 0 0 28px rgba(0,229,160,.22);
     }
     .con-res svg { width: 17px; height: 17px; }
-    .con-res:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,229,160,.38); }
+    .con-res:hover { box-shadow: 0 10px 40px rgba(0,229,160,.38); }
     .socials { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.4rem; }
     .soc {
       display: flex; align-items: center; gap: .55rem; padding: .7rem 1.35rem;
@@ -370,7 +417,7 @@
     footer {
       text-align: center; padding: 2.2rem 6%;
       border-top: 1px solid var(--border); background: var(--bg);
-      color: var(--muted); font-size: .78rem; font-weight: 300;
+      color: var(--muted); font-size: .78rem; font-weight: 300; position: relative; z-index: 1;
     }
     footer span { color: var(--em); }
 
@@ -386,10 +433,25 @@
       .tl::before { display:none; }
       .tli { flex-direction:column; gap:1rem; }
       .tldot { display:none; }
+      #fpill { display:none; }
     }
   </style>
 </head>
 <body>
+
+<!-- AURORA -->
+<div class="aurora">
+  <div class="ab"></div>
+  <div class="ab"></div>
+  <div class="ab"></div>
+  <div class="ab"></div>
+</div>
+
+<!-- FLOATING PILL -->
+<div id="fpill">
+  <span class="pdot"></span>
+  <span class="ptxt">🔨 Currently building <span>FutureEdge</span></span>
+</div>
 
 <div id="prog"></div>
 <div id="cdot"></div>
@@ -428,8 +490,8 @@
       <span class="tw" id="typer"></span><span class="tw-cur"></span>
     </div>
     <div class="h-actions">
-      <a href="#projects" class="btn-p">View My Work</a>
-      <a href="#contact"  class="btn-o">Let's Connect</a>
+      <a href="#projects" class="btn-p mag">View My Work</a>
+      <a href="#contact"  class="btn-o mag">Let's Connect</a>
     </div>
   </div>
   <div class="h-scroll"><div class="sbar"></div>scroll</div>
@@ -460,7 +522,7 @@
       </div>
     </div>
     <div class="s-grid reveal">
-      <div class="sc"><div class="snum" data-target="4">0</div><div class="slbl">Projects Built</div></div>
+      <div class="sc"><div class="snum" data-target="5">0</div><div class="slbl">Projects Built</div></div>
       <div class="sc"><div class="snum" data-target="250">0</div><div class="slbl">Hackathon Participants</div></div>
       <div class="sc"><div class="snum" data-target="3">0</div><div class="slbl">Leadership Roles</div></div>
       <div class="sc"><div class="snum" data-target="40">0</div><div class="slbl">Teams Shortlisted</div></div>
@@ -562,89 +624,58 @@
   <div class="p-grid">
 
     <div class="pcard reveal">
-      <div class="ptop">
-        <div class="pnum">01</div>
-        <div class="plinks">
-          <a href="https://github.com/Krissh24" target="_blank" class="plink">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
+      <div class="ptop"><div class="pnum">01</div><div class="plinks"><a href="https://github.com/Krissh24" target="_blank" class="plink"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a></div></div>
       <div class="ptitle">Highway vs Service Road Classifier</div>
       <ul class="ppts">
         <li>ML model classifying vehicular movement using GPS trajectory data</li>
         <li>Geospatial preprocessing, feature engineering & GNSS noise correction</li>
         <li>Movement clusters visualized with Folium & Matplotlib</li>
       </ul>
-      <div class="ptags">
-        <span class="ptag">Python</span><span class="ptag">Pandas</span>
-        <span class="ptag">NumPy</span><span class="ptag">Folium</span><span class="ptag">Geopy</span>
-      </div>
+      <div class="ptags"><span class="ptag">Python</span><span class="ptag">Pandas</span><span class="ptag">NumPy</span><span class="ptag">Folium</span><span class="ptag">Geopy</span></div>
     </div>
 
     <div class="pcard reveal">
-      <div class="ptop">
-        <div class="pnum">02</div>
-        <div class="plinks">
-          <a href="https://github.com/Krissh24" target="_blank" class="plink">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
+      <div class="ptop"><div class="pnum">02</div><div class="plinks"><a href="https://github.com/Krissh24" target="_blank" class="plink"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a></div></div>
       <div class="ptitle">Reinforcement Learning Snake Game</div>
       <ul class="ppts">
         <li>Deep Q-Learning AI agent that autonomously masters Snake</li>
         <li>Experience replay & reward optimization techniques</li>
         <li>Stable performance improvement across training episodes</li>
       </ul>
-      <div class="ptags">
-        <span class="ptag">Python</span><span class="ptag">PyTorch</span>
-        <span class="ptag">Pygame</span><span class="ptag">Deep Q-Learning</span>
-      </div>
+      <div class="ptags"><span class="ptag">Python</span><span class="ptag">PyTorch</span><span class="ptag">Pygame</span><span class="ptag">Deep Q-Learning</span></div>
     </div>
 
     <div class="pcard reveal">
-      <div class="ptop">
-        <div class="pnum">03</div>
-        <div class="plinks">
-          <a href="https://github.com/Krissh24" target="_blank" class="plink">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
+      <div class="ptop"><div class="pnum">03</div><div class="plinks"><a href="https://github.com/Krissh24" target="_blank" class="plink"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a></div></div>
       <div class="ptitle">UniRide — Smart College Ride Platform</div>
       <ul class="ppts">
         <li>Secure ride-request platform built for students</li>
         <li>Firebase Auth + real-time database architecture</li>
         <li>Predefined route-based filtering logic</li>
       </ul>
-      <div class="ptags">
-        <span class="ptag">FlutterFlow</span><span class="ptag">Firebase</span><span class="ptag">Dart</span>
-      </div>
+      <div class="ptags"><span class="ptag">FlutterFlow</span><span class="ptag">Firebase</span><span class="ptag">Dart</span></div>
     </div>
 
     <div class="pcard reveal">
-      <div class="ptop">
-        <div class="pnum">04</div>
-        <div class="plinks">
-          <a href="https://github.com/Krissh24" target="_blank" class="plink">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Code
-          </a>
-        </div>
-      </div>
+      <div class="ptop"><div class="pnum">04</div><div class="plinks"><a href="https://github.com/Krissh24" target="_blank" class="plink"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a></div></div>
+      <div class="ptitle">FutureEdge — Career Pathway Platform</div>
+      <ul class="ppts">
+        <li>Developing a platform that maps structured career learning paths and connects learners with companies based on verified skills</li>
+        <li>AI-driven guidance system for personalised student career pathways</li>
+        <li>Firebase-backed real-time skill tracking and company matching logic</li>
+      </ul>
+      <div class="ptags"><span class="ptag">FlutterFlow</span><span class="ptag">Firebase</span><span class="ptag">AI-Driven</span><span class="ptag">In Progress</span></div>
+    </div>
+
+    <div class="pcard reveal">
+      <div class="ptop"><div class="pnum">05</div><div class="plinks"><a href="https://github.com/Krissh24" target="_blank" class="plink"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0112 6.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.295-1.23 3.295-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.21v3.284c0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>Code</a></div></div>
       <div class="ptitle">PlimBiotech — Business Website</div>
       <ul class="ppts">
         <li>Freelance: responsive website for a bio-fertilizer company</li>
         <li>Complete production-ready client solution, shipped independently</li>
         <li>End-to-end development and deployment</li>
       </ul>
-      <div class="ptags">
-        <span class="ptag">Web Dev</span><span class="ptag">Freelance</span><span class="ptag">Responsive</span>
-      </div>
+      <div class="ptags"><span class="ptag">Web Dev</span><span class="ptag">Freelance</span><span class="ptag">Responsive</span></div>
     </div>
 
   </div>
@@ -703,7 +734,7 @@
     <p class="con-sub">Whether it's a project collaboration, an internship opportunity, or just a great conversation about ML — my inbox is always open.</p>
     <a href="mailto:sonikrissh24@gmail.com" class="con-email">sonikrissh24@gmail.com</a>
     <div>
-      <a href="Krissh_Soni_Resume.pdf" download class="con-res">
+      <a href="Krissh_Soni_Resume.pdf" download class="con-res mag">
         <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>
         Download My Resume
       </a>
@@ -717,7 +748,7 @@
         <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 01-1.98-1.98 1.98 1.98 0 011.98-1.98 1.98 1.98 0 011.98 1.98 1.98 1.98 0 01-1.98 1.98zm1.707 13.019H3.63V9h3.414v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
         LinkedIn
       </a>
-          </div>
+    </div>
   </div>
 </section>
 
@@ -846,6 +877,36 @@ secs.forEach(s => nio.observe(s));
 /* NAV SHRINK */
 addEventListener('scroll', () => {
   document.getElementById('nav').style.padding = scrollY > 80 ? '.72rem 6%' : '1.3rem 6%';
+});
+
+
+
+/* SPOTLIGHT BUTTONS */
+document.querySelectorAll('.btn-p, .btn-o, .con-res').forEach(btn => {
+  btn.addEventListener('mousemove', e => {
+    const r = btn.getBoundingClientRect();
+    btn.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    btn.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
+
+/* 3D TILT ON PROJECT CARDS */
+document.querySelectorAll('.pcard').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top) / r.height - .5;
+    card.style.transform = `perspective(700px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.03)`;
+    card.style.transition = 'transform .08s ease';
+    card.style.boxShadow = `${-x * 24}px ${-y * 24}px 48px rgba(0,0,0,.5), 0 0 40px rgba(0,229,160,.07)`;
+    card.style.borderColor = 'rgba(0,229,160,.3)';
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(700px) rotateY(0) rotateX(0) scale(1)';
+    card.style.transition = 'transform .6s cubic-bezier(.23,1,.32,1), box-shadow .6s ease, border-color .3s';
+    card.style.boxShadow = '';
+    card.style.borderColor = '';
+  });
 });
 </script>
 </body>
